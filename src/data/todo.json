@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Buy Groceries",
+    "description": "Buy groceries for the week"
+  },
+  {
+    "id": 2,
+    "title": "Do Laundry",
+    "description": "Do laundry before the weekend"
+  },
+  {
+    "id": 3,
+    "title": "Presentation",
+    "description": "Create presentation for the meeting"
+  }
+]
