@@ -1,0 +1,110 @@
+Step 1: Verify Database Existence:
+Before trying to create the "tododb" database, let's check if it already exists in PostgreSQL. You can use the following command to list the existing databases:
+
+= sudo -u postgres psql -c "\l"
+
+Step 2: Connect to Existing Database:
+If the "tododb" database exists, you can connect to it and use it for your application instead of creating a new one. To connect to an existing database, use the following command (replace "tododb" with the actual database name):
+
+= sudo -u postgres psql tododb
+
+Step 3: Reset or Recreate Database (Optional):
+To reset the "tododb" database and recreate it, you can use the following commands:
+
+# Drop the existing database
+= sudo -u postgres dropdb tododb
+
+# Recreate the database
+= sudo -u postgres createdb tododb
+
+= list all tables using the following SQL command:
+\dt
+
+To create the necessary tables in your PostgreSQL database using Prisma migrations and update your Elysia application to connect to this database, follow these steps:
+
+Step 1: Create Prisma Migrations
+
+Make sure you have Prisma installed in your project. If not, install it as a development dependency:
+
+npm install prisma --save-dev
+Initialize Prisma in your project if you haven't already:
+npx prisma init
+This command will generate a schema.prisma file.
+
+Define your data models in the schema.prisma file. It looks like you've already defined a Task model earlier:
+// schema.prisma
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  title     String
+  description String?
+  completed  Boolean  @default(false)
+}
+
+Create a migration from changes in Prisma schema, apply it to the database, trigger generators (e.g. Prisma Client)
+  $ prisma migrate dev
+
+  Reset your database and apply all migrations
+  $ prisma migrate reset
+
+  Apply pending migrations to the database in production/staging
+  $ prisma migrate deploy
+
+  Check the status of migrations in the production/staging database
+  $ prisma migrate status
+
+  Specify a schema
+  $ prisma migrate status --schema=./schema.prisma
+
+  Compare the database schema from two databases and render the diff as a SQL script
+  $ prisma migrate diff \
+    --from-url "$DATABASE_URL" \
+    --to-url "postgresql://login:password@localhost:5432/db" \
+    --script
+    
+Step 2: Update Elysia Application Configuration
+
+
++ Check Your Current Node.js Version:
+
+To check your current Node.js version, run the following command:
+node -v
+Install Node Version Manager (nvm):
+
+nvm is a tool that allows you to easily manage and switch between different Node.js versions.
+
+If you don't already have nvm installed, you can follow these steps to install it:
+
+Install nvm by running the following command:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+This command downloads and installs nvm.
+
+After installation, close and reopen your terminal or run source ~/.bashrc (or source ~/.zshrc if you're using Zsh) to make nvm available in your current session.
+
+List Available Node.js Versions:
+You can list the Node.js versions available for installation using the following command:
+nvm ls-remote
+This will display a list of Node.js versions.
+
+Install a Compatible Node.js Version:
+Prisma requires Node.js version 16.13 or higher. You can install a compatible version like this:
+
+nvm install 16.13
+Replace "16.13" with a higher version if one is available.
+
+Switch to the New Node.js Version:
+
+After successfully installing a compatible Node.js version, you can switch to it using:
+nvm use 16.13
+This will set the newly installed Node.js version as the active one for your terminal session.
+
+Run the following command to unset the incompatible npm settings for Node version 16.20.2:
+nvm use --delete-prefix v16.20.2
+This command will remove the prefix setting that conflicts with nvm.
+
+After running the command, you can try using Node.js version 16.20.2 again:
+nvm use 16.20.2
+This should resolve the conflict and allow you to use Node.js version 16.20.2 with nvm.
+
+== initialized Prisma using: npx prisma init
+== 
