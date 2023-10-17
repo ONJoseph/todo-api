@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define the User model
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  email    String   @unique
+  hashedPassword String   // You should consider encrypting the password
+  tasks    Task[]   // This establishes a one-to-many relationship with the Task model
+}
+
+// Define the Task model
+model Task {
+  id        Int     @id @default(autoincrement())
+  title     String
+  description   String?
+  completed      Boolean @default(false)
+  userId    Int     // This field establishes a foreign key relationship with the User model
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User    @relation(fields: [userId], references: [id])
+}
